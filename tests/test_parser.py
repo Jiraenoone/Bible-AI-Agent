@@ -1,13 +1,20 @@
+import os
 from services.parser import load_bible
 
-verses = load_bible("data/tsv_verses.xml")
+DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data", "tsv_verses.xml")
 
-print("จำนวนข้อทั้งหมด :", len(verses))
 
-print("\nข้อแรก")
+def test_load_bible_verses():
+    """Verify that Bible XML parser correctly loads verses."""
+    verses = load_bible(DATA_FILE)
+    
+    assert isinstance(verses, list)
+    assert len(verses) > 0
 
-print(verses[0])
-
-print("\nข้อที่ 100")
-
-print(verses[100])
+    first_verse = verses[0]
+    assert "book" in first_verse
+    assert "chapter" in first_verse
+    assert "verse" in first_verse
+    assert "text" in first_verse
+    assert first_verse["chapter"] == 1
+    assert first_verse["verse"] == 1
